@@ -8,15 +8,15 @@ class Genome{
 
     //creating a structure variable for DNA because it has two parts
     struct{
-        string FirstRNA, CompRNA;
+        string DNA1, DNA2;
     } DNA;
 
     Genome(string RNA, string F_RNA, string S_RNA){
 
         this -> RNA = RNA;
 
-        DNA.FirstRNA = F_RNA;
-        DNA.CompRNA = S_RNA;
+        DNA.DNA1 = F_RNA;
+        DNA.DNA2 = S_RNA;
     }
 
 
@@ -28,8 +28,6 @@ class Genome{
             else if(comp_RNA[i] == 'C'){comp_RNA[i] = 'G';}
             else if(comp_RNA[i] == 'G'){comp_RNA[i] = 'C';}
         }
-        cout << comp_RNA << endl;
-        cout << endl;
     }
 
     void tiny_jump(char before, char after, int NumOfChange){
@@ -53,24 +51,25 @@ class Genome{
 
         // 2- do the function for DNA
         count_befores = 0;
-        for(int i=0; i < DNA.FirstRNA.length(); i++){
+        for(int i=0; i < DNA.DNA1.length(); i++){
 
-            if(DNA.FirstRNA[i] == before){
+            if(DNA.DNA1[i] == before){
                 count_befores++;
                 if(count_befores <= NumOfChange){
-                    DNA.FirstRNA[i] = after;
-                    DNA.CompRNA[i] = after_comp;
+                    DNA.DNA1[i] = after;
+                    DNA.DNA2[i] = after_comp;
                 }
             }
             
-            else if(DNA.CompRNA[i] == before){
+            else if(DNA.DNA2[i] == before){
                 count_befores++;
                 if(count_befores <= NumOfChange){
-                DNA.CompRNA[i] = after;
-                DNA.FirstRNA[i] = after_comp;
+                DNA.DNA2[i] = after;
+                DNA.DNA1[i] = after_comp;
                 }
             }
         }
+    }
 
     void big_jump(string before, string after){
         
@@ -84,8 +83,8 @@ class Genome{
         //2- for DNA
         
         int position_first, position_comp;
-        position_first = DNA.FirstRNA.find(before);
-        position_comp = DNA.CompRNA.find(before);
+        position_first = DNA.DNA1.find(before);
+        position_comp = DNA.DNA2.find(before);
 
         if(position_comp != string::npos || position_first != string::npos){
 
@@ -98,12 +97,12 @@ class Genome{
         }
 
         if (position_first <= position_comp){ 
-            DNA.FirstRNA.replace(position_first, before_len, after);
-            DNA.CompRNA.replace(position_first, before_len, after_comp);
+            DNA.DNA1.replace(position_first, before_len, after);
+            DNA.DNA2.replace(position_first, before_len, after_comp);
             }
         else if(position_first > position_comp){ 
-            DNA.CompRNA.replace(position_comp, before_len, after);
-            DNA.FirstRNA.replace(position_comp, before_len, after_comp);
+            DNA.DNA2.replace(position_comp, before_len, after);
+            DNA.DNA1.replace(position_comp, before_len, after_comp);
         }
         }
     }
@@ -136,22 +135,22 @@ class Genome{
         }
 
         //2- for DNA 
-        int position_first = DNA.FirstRNA.find(str);
-        int position_comp = DNA.CompRNA.find(str);
+        int position_first = DNA.DNA1.find(str);
+        int position_comp = DNA.DNA2.find(str);
 
         if(position_comp != string::npos || position_first != string::npos){
         if(position_first >= position_comp){
             position = position_first;
 
-            DNA.FirstRNA.replace(position, l, reverse_str);
-            DNA.CompRNA.replace(position, l, reverse_comp);
+            DNA.DNA1.replace(position, l, reverse_str);
+            DNA.DNA2.replace(position, l, reverse_comp);
             
         }
         else if(position_first < position_comp){
             position = position_comp;
 
-            DNA.CompRNA.replace(position, l, reverse_str);
-            DNA.FirstRNA.replace(position, l, reverse_comp);
+            DNA.DNA2.replace(position, l, reverse_str);
+            DNA.DNA1.replace(position, l, reverse_comp);
             
         }
         }
@@ -175,6 +174,33 @@ class cell{
     }
     void reverse(string A,int n){
         chromosomes[n].reverse(A);
+    }
+    void DeathOfCell(){
+        for(int i =0;i<chromosomes.size();i++){
+            int AT = 0;
+            int CG = 0;
+            int miss = 0;
+            for(int j=0 ; j<chromosomes[i].DNA.DNA1.size();j++){
+            if(chromosomes[i].DNA.DNA1[j]== 'A' && chromosomes[i].DNA.DNA2[j]== 'T'){ AT++;}
+            if(chromosomes[i].DNA.DNA1[j]== 'T' && chromosomes[i].DNA.DNA2[j]== 'A'){ AT++;}
+            if(chromosomes[i].DNA.DNA1[j]== 'C' && chromosomes[i].DNA.DNA2[j]== 'G'){CG++;}
+            if(chromosomes[i].DNA.DNA1[j]== 'G' && chromosomes[i].DNA.DNA2[j]== 'C'){CG++;}
+            if(chromosomes[i].DNA.DNA1[j]== 'A' && chromosomes[i].DNA.DNA2[j]!= 'T'){ miss++;}
+            if(chromosomes[i].DNA.DNA1[j]== 'T' && chromosomes[i].DNA.DNA2[j]!= 'A'){ miss++;}
+            if(chromosomes[i].DNA.DNA1[j]== 'C' && chromosomes[i].DNA.DNA2[j]!= 'G'){miss++;}
+            if(chromosomes[i].DNA.DNA1[j]== 'G' && chromosomes[i].DNA.DNA2[j]!= 'C'){miss++;}
+            }
+            if((AT/CG>3) || miss>5){
+                chromosomes.clear();
+                delete this;
+                break;
+        }
+        }
+    void palindrome(){
+        
+    }
+
+
     }
 };
 //check if the RNA is made of ATGC
