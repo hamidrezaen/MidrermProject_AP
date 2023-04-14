@@ -1,7 +1,4 @@
-#include <iostream>
-#include <string>
-#include <algorithm>
-
+#include<bits/stdc++.h>
 using namespace std;
 
 class Genome{
@@ -47,16 +44,7 @@ class Genome{
                 }
             }
         }
-
-        // if the number of changes is greater than the characters do this:
-        if(count_befores < NumOfChange){
-            cout << "The number of changes was greater than the characters already exist in the string" << endl
-            << "so we changed " << count_befores << " characters." << endl;
-        }
-        
-        cout << "Now the new RNA is: " << RNA << endl;
-
-        //create a char to change the function for DNA easier
+       //create a char to change the function for DNA easier
         char after_comp;
         if(after == 'A'){after_comp = 'T';}
         else if(after == 'T'){after_comp = 'A';}
@@ -83,17 +71,6 @@ class Genome{
                 }
             }
         }
-        
-        // if the number of changes is greater than the characters do this:
-        if(count_befores < NumOfChange){
-            cout << "The number of changes was greater than the characters already exist in the string" << endl
-            << "so we changed " << count_befores << " characters." << endl;
-        }
-        
-        cout << "Now the first RNA of the DNA is: " << DNA.FirstRNA << endl;
-        cout << "Now the comp. RNA of the DNA is: " << DNA.CompRNA << endl;
-        cout << endl;
-    }
 
     void big_jump(string before, string after){
         
@@ -102,9 +79,7 @@ class Genome{
         int position = RNA.find(before);
         if(position!=string::npos){
         RNA.replace(position, before_len, after);
-        cout << "Now the new RNA is: " << RNA << endl;
         }
-        else{cout << "It wasn't in the RNA." << endl;}
 
         //2- for DNA
         
@@ -125,19 +100,12 @@ class Genome{
         if (position_first <= position_comp){ 
             DNA.FirstRNA.replace(position_first, before_len, after);
             DNA.CompRNA.replace(position_first, before_len, after_comp);
-            cout << "Now the first RNA of the DNA is: " << DNA.FirstRNA << endl;
-            cout << "Now the comp. RNA of the DNA is: " << DNA.CompRNA << endl;
             }
         else if(position_first > position_comp){ 
             DNA.CompRNA.replace(position_comp, before_len, after);
             DNA.FirstRNA.replace(position_comp, before_len, after_comp);
-            cout << "Now the first RNA of the DNA is: " << DNA.FirstRNA << endl;
-            cout << "Now the comp. RNA of the DNA is: " << DNA.CompRNA << endl;
         }
         }
-
-        else{cout << "It wasn't in the DNA." << endl;}
-        cout << endl;
     }
 
     void reverse(string str){
@@ -165,11 +133,6 @@ class Genome{
 
         if(position != string::npos){
             RNA.replace(position, l, reverse_str);
-            cout << "Now the new RNA is: " << RNA << endl;
-        }
-
-        else{
-            cout << "It wasn't in the RNA." << endl;
         }
 
         //2- for DNA 
@@ -183,8 +146,6 @@ class Genome{
             DNA.FirstRNA.replace(position, l, reverse_str);
             DNA.CompRNA.replace(position, l, reverse_comp);
             
-            cout << "Now the first RNA of the DNA is: " << DNA.FirstRNA << endl;
-            cout << "Now the second RNA of the DNA is: " << DNA.CompRNA << endl;
         }
         else if(position_first < position_comp){
             position = position_comp;
@@ -192,16 +153,30 @@ class Genome{
             DNA.CompRNA.replace(position, l, reverse_str);
             DNA.FirstRNA.replace(position, l, reverse_comp);
             
-            cout << "Now the first RNA of the DNA is: " << DNA.FirstRNA << endl;
-            cout << "Now the second RNA of the DNA is: " << DNA.CompRNA << endl;
         }
         }
-
-        else{cout << "It wasn't in the DNA." << endl;}
-        cout << endl;
     }
 };
 
+class cell{
+    private:
+    vector<Genome> chromosomes;
+    public:
+    void SetChromosomes(vector<Genome> a){
+        for(auto x:a)
+            chromosomes.push_back(x);
+    }
+    void tiny_jump(char A, char B, int n, int m){
+        chromosomes[m].tiny_jump(A, B, n);
+    }
+    void big_jump(string A,int n,string B,int m){
+        chromosomes[m].big_jump(A,B);
+        chromosomes[n].big_jump(B,A);
+    }
+    void reverse(string A,int n){
+        chromosomes[n].reverse(A);
+    }
+};
 //check if the RNA is made of ATGC
 bool HasOtherWords(string str){
     for(int i=0; i<str.length(); i++){
