@@ -1,5 +1,7 @@
 #include<bits/stdc++.h>
 #include "animal.h"
+#include "cell.h"
+
 using namespace std;
 
 string create_comp(string str){
@@ -414,6 +416,47 @@ bool HasOtherWords(string str){
     }
     return 0;
 }
+class Animal;
+
+class Virus{
+    string RNA;
+    
+    public:
+    
+    //Input Rna
+    void rna_set(string RNA){
+        this -> RNA = RNA;
+    }
+    // Most repeated sub-String
+    string common (vector <string> rnas){
+        string ans;
+        if (rnas.size()==1)
+            ans = rnas[0];
+        else{
+            string s=rnas[0];
+            int n = rnas.size();
+            int n2 = s.length();
+
+            for(int i=0 ; i<n2 ; i++ ){
+                for (int j=i+1 ; j<=n2 ; j++){
+                    string sub = s.substr(i,j);
+                    int k = 1;
+                    for ( ; k<n ; k++){
+                        if (rnas[k].find(sub)==std::string::npos)
+                            break;
+                    }
+                    if (k==n && ans.length() < sub.length())
+                        ans = sub;
+                }
+            } 
+        }
+
+        return ans;
+    }
+
+    bool IsDangerous(Animal anim);
+
+};
 
 int main(){
 
