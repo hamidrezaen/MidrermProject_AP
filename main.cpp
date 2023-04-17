@@ -347,6 +347,7 @@ int main(){
             cout << "Press 3 to do the Asexual reproduction" << endl;
             cout << "Press 4 to do the Sexual reproduction" << endl;
             cout << "Press 5 to check if the chromosome is death" << endl;
+            cout << "Press 6 to call the virus" <<endl;
             cout << "Press 0 to Exit" << endl;
             cout << endl;
 
@@ -424,6 +425,11 @@ int main(){
                 else{
                     cout<<"wrong number ";
                 }
+            }
+
+            // work with virus
+            else if(fun_an == 6){
+                cout<<"" ;
             }
 
 

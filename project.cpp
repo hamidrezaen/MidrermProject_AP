@@ -21,7 +21,8 @@ class Genome{
     }
 
 
-    void create_comp(){
+    void create_comp()
+    {
         string comp_RNA = RNA;
         replace( comp_RNA.begin(), comp_RNA.end(), 'A','T' );
         replace( comp_RNA.begin(), comp_RNA.end(), 'T','A' );
